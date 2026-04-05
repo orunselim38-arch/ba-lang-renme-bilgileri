@@ -1,0 +1,38 @@
+class Kitap:
+    def __init__(self, isim, yazar, **kwargs):
+        self.isim = isim
+        self.yazar = yazar
+        self.durum = "Müsait"
+        self.detaylar = kwargs # **kwargs ile kitap türü/bilgileri eklendi
+
+class Kullanici:
+    def __init__(self, isim):
+        self.isim = isim
+        self.aldigi_kitaplar = []
+
+class Kutuphane:
+    def __init__(self):
+        self.kitaplar = []
+
+    def kitap_ekle(self, kitap):
+        self.kitaplar.append(kitap)
+
+    def odunc_ver(self, kitap, kullanici):
+        if len(kullanici.aldigi_kitaplar) >= 2: # Max 2 kitap limiti
+            print(f"{kullanici.isim} maksimum kitap alma limitine (2) ulaştı.")
+            return
+        
+        if kitap.durum == "Müsait":
+            kitap.durum = "Ödünç Verildi"
+            kullanici.aldigi_kitaplar.append(kitap)
+            print(f"{kitap.isim}, {kullanici.isim} adlı kişiye ödünç verildi.")
+        else:
+            print(f"{kitap.isim} şu an başka birinde, verilemez.") # Aynı kitap 2 kişiye verilemez
+
+    def iade_al(self, kitap, kullanici):
+        if kitap in kullanici.aldigi_kitaplar:
+            kitap.durum = "Müsait"
+            kullanici.aldigi_kitaplar.remove(kitap)
+            print(f"{kitap.isim} başarıyla iade alındı.")
+        else:
+            print("Bu kitap bu kullanıcıda değil.")
