@@ -1,0 +1,27 @@
+class Arac:
+    def __init__(self, marka, gunluk_fiyat, *args):
+        self.marka = marka
+        self.gunluk_fiyat = gunluk_fiyat
+        self.musait_mi = True
+        self.ozellikler = args # *args ile araç özellikleri eklendi
+
+class Musteri:
+    def __init__(self, isim):
+        self.isim = isim
+        self.kiraladigi_araclar = []
+
+    def arac_kirala(self, arac):
+        if arac.musait_mi: # Araç müsait değilse kiralanamaz
+            arac.musait_mi = False
+            self.kiraladigi_araclar.append(arac) # Birden fazla araç listeye eklenebilir
+            print(f"{arac.marka} kiralandı. Günlük fiyat: {arac.gunluk_fiyat} TL")
+        else:
+            print(f"{arac.marka} şu an müsait değil.")
+
+    def arac_iade_et(self, arac):
+        if arac in self.kiraladigi_araclar:
+            arac.musait_mi = True
+            self.kiraladigi_araclar.remove(arac)
+            print(f"{arac.marka} iade edildi.")
+        else:
+            print("Bu aracı kiralamadınız.")
